@@ -1,4 +1,4 @@
-## safe to execute, whatif is set
+## run on oim-rm.prd.corp.telenet.be
 Param(
     [string]$Group
 )
@@ -20,7 +20,7 @@ function get-cleanName($string){
     return $string
 }
 function get-groupName($Group_Name){
-    write-host "input $Group_Name"
+    write-host "input: $Group_Name"
     if(-Not $Group_Name){$Group_Name = read-host "Enter Group Name"}
     $Group_Name = get-cleanName($Group_Name)
     if (-Not (get-isunicode($Group_Name))){
@@ -29,7 +29,7 @@ function get-groupName($Group_Name){
         return $Group_Name
     }
 }
-function get-Newgroup($Group_Name){
+function get-Newgroup($Group){
     $Group_Name=get-groupName($Group)
 
     #should be read from a config file
