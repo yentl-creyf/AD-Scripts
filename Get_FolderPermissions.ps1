@@ -1,4 +1,11 @@
-
+Param(
+    $startFolder = '\\prod451\PRD\DEP\',# must have slash at the end, location where the script needs to start reading
+    $start = '\\prod451\PRD\DEP\', # must have slash at the end, location what is considered the 0th folder
+    $location = '\\vnfs01.prd.corp.Telenet.be\tpwlsoim\fileshareaccess', # location of output
+    $maxfolderlvl = 6
+)
+$startSlash = ($start.ToCharArray() | Where-Object { $_ -eq "\" } | Measure-object ).count -1
+## ran on \\ewp005491\FileServer
 function get-data {
     param(
         $folder,
@@ -70,16 +77,6 @@ function get-folders{
     }
 }
 
-#########################################################################################################################
-##########################################################INPUT##########################################################
-$startFolder = "F:\"# must have slash at the end, location where the script needs to start reading
-$start = "F:\" # must have slash at the end, location what is considered the 0th folder
-$startSlash = ($start.ToCharArray() | Where-Object { $_ -eq "\" } | Measure-object ).count -1
-$location = 'C:\Users\ycreyf\OneDrive - Telenet\Working Folders\Scripts&Exports\PowerShell' # location of output
-$maxfolderlvl = 6
-#########################################################################################################################
-#########################################################################################################################
-
 $date = Get-Date -Format "yyyy-MM-dd"
 $error_output_path = "$($location)\$($date)_Errors.csv"
 
@@ -89,7 +86,3 @@ get-folders $startFolder $startSlash $location $maxfolderlvl
 
 $Stopwatch.Stop()
 $Stopwatch.Elapsed
-
-$date = Get-Date -Format "yyyy-MM-dd"
-$scriptName = $MyInvocation.MyCommand.Name
-Add-Content "$($location)\Last_Run_$scriptName.csv" $date
